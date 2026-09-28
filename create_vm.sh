@@ -13,9 +13,8 @@ BRIDGE="$2"
 VLAN_ID="$3"
 VNC_DISPLAY="$4"
 
-# ---------------------------------------------------------------------------
 # Parametros derivados
-# ---------------------------------------------------------------------------
+
 TAP_NAME="${VM_NAME}_tap"                 
 IMG_NAME="${VM_NAME}_img.qcow2"                 
 BASE_IMG="cirros-0.5.1-x86_64-disk.img"         
