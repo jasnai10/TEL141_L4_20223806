@@ -1,0 +1,53 @@
+########## 1. LIMPIEZA DE LOS NODOS ##########
+===== LIMPIEZA DEL NODO: server1 =====
+11d8f6960226
+===== LIMPIEZA COMPLETADA EN: server1 =====
+===== LIMPIEZA DEL NODO: server2 =====
+===== LIMPIEZA COMPLETADA EN: server2 =====
+===== LIMPIEZA DEL NODO: server3 =====
+===== LIMPIEZA COMPLETADA EN: server3 =====
+########## 2. INICIALIZAR EL MASTER (server 3) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[INFO] Activando IPv4 forwarding...
+net.ipv4.ip_forward = 1
+[INFO] Estableciendo la politica FORWARD (tabla filter) en DROP...
+[OK] Nodo master inicializado correctamente.
+########## 3. INICIALIZAR LOS WORKERS (server 1 y 2) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+########## 4. CREAR VLAN 100 SIN DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan100' (VLAN 100) como gateway...
+[OK] Gateway de la VLAN 100 configurado en 192.168.0.1/24.
+[INFO] DHCP deshabilitado para la VLAN 100.
+[OK] Red VLAN 100 creada correctamente.
+########## 5. CREAR VLAN 200 SIN DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan200' (VLAN 200) como gateway...
+[OK] Gateway de la VLAN 200 configurado en 192.168.2.1/24.
+[INFO] DHCP deshabilitado para la VLAN 200.
+[OK] Red VLAN 200 creada correctamente.
+########## 6. SALIDA A INTERNET PARA VLAN 100 ##########
+[INFO] Habilitando salida a Internet para la VLAN 100 (192.168.0.0/24)...
+[OK] Salida a Internet habilitada para la VLAN 100.
+########## 7. SALIDA A INTERNET PARA VLAN 200 ##########
+[INFO] Habilitando salida a Internet para la VLAN 200 (192.168.2.0/24)...
+[OK] Salida a Internet habilitada para la VLAN 200.
+########## 8. CREAR CONTENEDOR EN SERVER 1 (VLAN 100, IP MANUAL) ##########
+[INFO] Creando contenedor 'cont_s1_v100' (VLAN 100)...
+44a37aa621089a785fecab399fc94a950b5ec190fd0d992464e49b3af82c68bb
+[OK] Contenedor 'cont_s1_v100' con IP 192.168.0.10/24, gw 192.168.0.1 (VLAN 100).
+########## 9. CREAR VM EN SERVER 2 (VLAN 100) ##########
+[INFO] Imagen base 'cirros-0.5.1-x86_64-disk.img' ya existe.
+[INFO] La imagen 'vm_s2_v100_img.qcow2' ya existe.
+[INFO] Creando interfaz TAP 'vm_s2_v100_tap'...
+[INFO] Iniciando la VM 'vm_s2_v100' (VLAN 100, VNC :1, MAC 20:22:38:06:64:00)...
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm [bit 2]
+[OK] VM 'vm_s2_v100' creada y en ejecucion (VNC en el puerto 5901).
+########## DESPLIEGUE DE LA ACTIVIDAD 2 COMPLETADO ##########
+NOTA: a la VM del server 2 asignarle IP manual por VNC:
+  sudo ip addr add 192.168.0.20/24 dev eth0
+  sudo ip route add default via 192.168.0.1

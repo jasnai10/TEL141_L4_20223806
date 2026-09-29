@@ -1,0 +1,50 @@
+==========================================
+ EVIDENCIA - CONTENEDOR SERVER 1 (VLAN 100)
+ Fecha: Tue Sep 29 02:11:37 UTC 2026
+==========================================
+
+### 1. IP ASIGNADA POR DHCP ###
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+18: veth_cont_100@if19: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether e6:50:68:4f:94:b4 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.14/24 brd 192.168.0.255 scope global veth_cont_100
+       valid_lft forever preferred_lft forever
+    inet6 fe80::e450:68ff:fe4f:94b4/64 scope link 
+       valid_lft forever preferred_lft forever
+
+### 2. CONECTIVIDAD CAPA 2 (arping al gateway) ###
+ARPING 192.168.0.1 from 192.168.0.14 veth_cont_100
+Unicast reply from 192.168.0.1 [aa:fe:f2:61:d2:5a] 3.220ms
+Unicast reply from 192.168.0.1 [aa:fe:f2:61:d2:5a] 2.447ms
+Unicast reply from 192.168.0.1 [aa:fe:f2:61:d2:5a] 0.581ms
+Sent 3 probe(s) (0 broadcast(s))
+Received 3 response(s) (0 request(s), 0 broadcast(s))
+
+### 3. CONECTIVIDAD CAPA 3 (ping al gateway) ###
+PING 192.168.0.1 (192.168.0.1): 56 data bytes
+64 bytes from 192.168.0.1: seq=0 ttl=64 time=3.310 ms
+64 bytes from 192.168.0.1: seq=1 ttl=64 time=0.633 ms
+64 bytes from 192.168.0.1: seq=2 ttl=64 time=0.698 ms
+
+--- 192.168.0.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.633/1.547/3.310 ms
+
+### 4. CONECTIVIDAD A INTERNET (ping 8.8.8.8) ###
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=110 time=37.244 ms
+64 bytes from 8.8.8.8: seq=1 ttl=110 time=36.234 ms
+64 bytes from 8.8.8.8: seq=2 ttl=110 time=35.069 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 35.069/36.182/37.244 ms
+
+==========================================
+ FIN DE EVIDENCIAS
+==========================================
