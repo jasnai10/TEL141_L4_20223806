@@ -1,0 +1,35 @@
+==================================================
+ EVIDENCIA ACT 2 - INFRAESTRUCTURA (server 3)
+ Fecha: Tue Sep 29 02:48:47 UTC 2026
+==================================================
+
+### 1. OVS (gateways SIN puertos DHCP) ###
+6f0eb54f-2ce9-4b85-8110-2a5df45533bc
+    Bridge br-int
+        Port br-int
+            Interface br-int
+                type: internal
+        Port gw_vlan100
+            tag: 100
+            Interface gw_vlan100
+                type: internal
+        Port gw_vlan200
+            tag: 200
+            Interface gw_vlan200
+                type: internal
+        Port ens4
+            Interface ens4
+    ovs_version: "2.13.8"
+
+### 2. CONFIRMAR QUE NO HAY DNSMASQ (sin DHCP) ###
+No hay dnsmasq (correcto: red sin DHCP)
+
+### 3. REGLA NAT (salida a Internet) ###
+Chain POSTROUTING (policy ACCEPT 11 packets, 726 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    1    84 MASQUERADE  all  --  *      ens3    192.168.0.0/24       0.0.0.0/0           
+    0     0 MASQUERADE  all  --  *      ens3    192.168.2.0/24       0.0.0.0/0           
+
+==================================================
+ FIN DE EVIDENCIAS - INFRAESTRUCTURA
+==================================================

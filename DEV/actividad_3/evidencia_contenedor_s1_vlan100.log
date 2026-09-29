@@ -1,0 +1,51 @@
+==================================================
+ EVIDENCIA ACT 3 - CONTENEDOR SERVER 1 (VLAN 100, CON DHCP SIN INTERNET)
+ Fecha: Tue Sep 29 02:51:49 UTC 2026
+==================================================
+
+### 1. IP OBTENIDA POR DHCP Y MAC ###
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+30: veth_cont_100@if31: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether 32:5f:46:2b:de:49 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global veth_cont_100
+       valid_lft forever preferred_lft forever
+    inet6 fe80::305f:46ff:fe2b:de49/64 scope link 
+       valid_lft forever preferred_lft forever
+
+### 2. DEFAULT GATEWAY (recibido por DHCP) ###
+default via 192.168.0.1 dev veth_cont_100  metric 230 
+192.168.0.0/24 dev veth_cont_100 scope link  src 192.168.0.15 
+
+### 3. CAPA 2 (arping al gateway) ###
+ARPING 192.168.0.1 from 192.168.0.15 veth_cont_100
+Unicast reply from 192.168.0.1 [e2:21:aa:74:0f:f3] 3.497ms
+Unicast reply from 192.168.0.1 [e2:21:aa:74:0f:f3] 2.539ms
+Unicast reply from 192.168.0.1 [e2:21:aa:74:0f:f3] 0.426ms
+Sent 3 probe(s) (0 broadcast(s))
+Received 3 response(s) (0 request(s), 0 broadcast(s))
+
+### 4. CAPA 3 (ping al gateway) - DEBE FUNCIONAR ###
+PING 192.168.0.1 (192.168.0.1): 56 data bytes
+64 bytes from 192.168.0.1: seq=0 ttl=64 time=2.688 ms
+64 bytes from 192.168.0.1: seq=1 ttl=64 time=0.690 ms
+64 bytes from 192.168.0.1: seq=2 ttl=64 time=0.570 ms
+
+--- 192.168.0.1 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.570/1.316/2.688 ms
+
+### 5. INTERNET (ping 8.8.8.8) - DEBE FALLAR (red sin salida) ###
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 0 packets received, 100% packet loss
+>>> Sin salida a Internet (CORRECTO para Actividad 3)
+
+==================================================
+ FIN DE EVIDENCIAS
+==================================================

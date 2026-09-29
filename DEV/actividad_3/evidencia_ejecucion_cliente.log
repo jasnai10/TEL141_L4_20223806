@@ -1,0 +1,56 @@
+########## 1. LIMPIEZA DE LOS NODOS ##########
+===== LIMPIEZA DEL NODO: server1 =====
+44a37aa62108
+===== LIMPIEZA COMPLETADA EN: server1 =====
+===== LIMPIEZA DEL NODO: server2 =====
+===== LIMPIEZA COMPLETADA EN: server2 =====
+===== LIMPIEZA DEL NODO: server3 =====
+===== LIMPIEZA COMPLETADA EN: server3 =====
+########## 2. INICIALIZAR EL MASTER (server 3) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[INFO] Activando IPv4 forwarding...
+net.ipv4.ip_forward = 1
+[INFO] Estableciendo la politica FORWARD (tabla filter) en DROP...
+[OK] Nodo master inicializado correctamente.
+########## 3. INICIALIZAR LOS WORKERS (server 1 y 2) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+########## 4. CREAR VLAN 100 CON DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan100' (VLAN 100) como gateway...
+[OK] Gateway de la VLAN 100 configurado en 192.168.0.1/24.
+[INFO] Configurando servicio DHCP para la VLAN 100...
+[INFO] Iniciando dnsmasq (rango 192.168.0.11-192.168.0.15, gw 192.168.0.1)...
+[OK] Servicio DHCP activo en 192.168.0.2 para la VLAN 100.
+[OK] Red VLAN 100 creada correctamente.
+########## 5. CREAR VLAN 200 CON DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan200' (VLAN 200) como gateway...
+[OK] Gateway de la VLAN 200 configurado en 192.168.2.1/24.
+[INFO] Configurando servicio DHCP para la VLAN 200...
+[INFO] Iniciando dnsmasq (rango 192.168.2.11-192.168.2.15, gw 192.168.2.1)...
+[OK] Servicio DHCP activo en 192.168.2.2 para la VLAN 200.
+[OK] Red VLAN 200 creada correctamente.
+########## 6. CREAR CONTENEDOR EN SERVER 1 (VLAN 100, DHCP) ##########
+[INFO] Creando contenedor 'cont_s1_v100' (VLAN 100)...
+248bcb9bf549a1abb54898c46fa188b01a2f881a8b6e5efcc6d97c24b2c4c170
+udhcpc: started, v1.37.0
+udhcpc: broadcasting discover
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 192.168.0.15, server 192.168.0.2
+udhcpc: lease of 192.168.0.15 obtained from 192.168.0.2, lease time 43200
+mv: can't rename '/etc/resolv.conf.21': Resource busy
+[OK] Contenedor 'cont_s1_v100' conectado a la VLAN 100.
+########## 7. CREAR VM EN SERVER 2 (VLAN 100) ##########
+[INFO] Imagen base 'cirros-0.5.1-x86_64-disk.img' ya existe.
+[INFO] La imagen 'vm_s2_v100_img.qcow2' ya existe.
+[INFO] Creando interfaz TAP 'vm_s2_v100_tap'...
+[INFO] Iniciando la VM 'vm_s2_v100' (VLAN 100, VNC :1, MAC 20:22:38:06:64:00)...
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.80000001H:ECX.svm [bit 2]
+[OK] VM 'vm_s2_v100' creada y en ejecucion (VNC en el puerto 5901).
+########## DESPLIEGUE DE LA ACTIVIDAD 3 COMPLETADO ##########
+NOTA: redes CON DHCP pero SIN salida a Internet (no hay NAT).
+En la VM del server 2, pedir IP por DHCP via VNC: sudo udhcpc -i eth0
