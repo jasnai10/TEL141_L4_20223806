@@ -1,0 +1,58 @@
+# EVIDENCIA ACTIVIDAD 4 - RUTEO ENTRE VLAN 100 Y VLAN 200
+# Fecha: Tue Sep 29 02:59:04 UTC 2026
+
+# 1. IP del contenedor en VLAN 100 (server 1)
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+34: veth_cont_100@if35: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether b6:7e:a7:ba:fe:b0 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.11/24 brd 192.168.0.255 scope global veth_cont_100
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b47e:a7ff:feba:feb0/64 scope link 
+       valid_lft forever preferred_lft forever
+
+# 2. IP del contenedor en VLAN 200 (server 1)
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+36: veth_cont_200@if37: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether 26:a5:d2:2d:4e:d1 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.2.15/24 brd 192.168.2.255 scope global veth_cont_200
+       valid_lft forever preferred_lft forever
+    inet6 fe80::24a5:d2ff:fe2d:4ed1/64 scope link 
+       valid_lft forever preferred_lft forever
+
+# 3. Reglas de ruteo entre VLANs (FORWARD en server 3)
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    9   756 ACCEPT     all  --  gw_vlan100 gw_vlan200  0.0.0.0/0            0.0.0.0/0           
+    6   504 ACCEPT     all  --  gw_vlan200 gw_vlan100  0.0.0.0/0            0.0.0.0/0           
+
+# 4. Ruteo VLAN 100 -> VLAN 200 (ping de 192.168.0.11 a 192.168.2.15)
+PING 192.168.2.15 (192.168.2.15): 56 data bytes
+64 bytes from 192.168.2.15: seq=0 ttl=63 time=5.151 ms
+64 bytes from 192.168.2.15: seq=1 ttl=63 time=0.979 ms
+64 bytes from 192.168.2.15: seq=2 ttl=63 time=1.000 ms
+
+--- 192.168.2.15 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.979/2.376/5.151 ms
+
+# 5. Ruteo VLAN 200 -> VLAN 100 (ping de 192.168.2.15 a 192.168.0.11)
+PING 192.168.0.11 (192.168.0.11): 56 data bytes
+64 bytes from 192.168.0.11: seq=0 ttl=63 time=1.227 ms
+64 bytes from 192.168.0.11: seq=1 ttl=63 time=0.787 ms
+64 bytes from 192.168.0.11: seq=2 ttl=63 time=1.024 ms
+
+--- 192.168.0.11 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.787/1.012/1.227 ms
+
+# FIN DE EVIDENCIAS ACTIVIDAD 4

@@ -1,0 +1,62 @@
+########## 1. LIMPIEZA DE LOS NODOS ##########
+===== LIMPIEZA DEL NODO: server1 =====
+248bcb9bf549
+===== LIMPIEZA COMPLETADA EN: server1 =====
+===== LIMPIEZA DEL NODO: server2 =====
+===== LIMPIEZA COMPLETADA EN: server2 =====
+===== LIMPIEZA DEL NODO: server3 =====
+===== LIMPIEZA COMPLETADA EN: server3 =====
+########## 2. INICIALIZAR EL MASTER (server 3) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[INFO] Activando IPv4 forwarding...
+net.ipv4.ip_forward = 1
+[INFO] Estableciendo la politica FORWARD (tabla filter) en DROP...
+[OK] Nodo master inicializado correctamente.
+########## 3. INICIALIZAR LOS WORKERS (server 1 y 2) ##########
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+[INFO] Verificando/creando el bridge OVS 'br-int'...
+[INFO] Conectando la interfaz 'ens4' al bridge 'br-int'...
+[OK] Nodo worker inicializado correctamente.
+########## 4. CREAR VLAN 100 CON DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan100' (VLAN 100) como gateway...
+[OK] Gateway de la VLAN 100 configurado en 192.168.0.1/24.
+[INFO] Configurando servicio DHCP para la VLAN 100...
+[INFO] Iniciando dnsmasq (rango 192.168.0.11-192.168.0.15, gw 192.168.0.1)...
+[OK] Servicio DHCP activo en 192.168.0.2 para la VLAN 100.
+[OK] Red VLAN 100 creada correctamente.
+########## 5. CREAR VLAN 200 CON DHCP ##########
+[INFO] Creando puerto interno 'gw_vlan200' (VLAN 200) como gateway...
+[OK] Gateway de la VLAN 200 configurado en 192.168.2.1/24.
+[INFO] Configurando servicio DHCP para la VLAN 200...
+[INFO] Iniciando dnsmasq (rango 192.168.2.11-192.168.2.15, gw 192.168.2.1)...
+[OK] Servicio DHCP activo en 192.168.2.2 para la VLAN 200.
+[OK] Red VLAN 200 creada correctamente.
+########## 6. RUTEO ENTRE VLAN 100 Y VLAN 200 ##########
+[INFO] Habilitando ruteo entre la VLAN 100 y la VLAN 200...
+[OK] Ruteo bidireccional habilitado entre la VLAN 100 y la VLAN 200.
+########## 7. CREAR CONTENEDOR EN SERVER 1 (VLAN 100, DHCP) ##########
+[INFO] Creando contenedor 'cont_s1_v100' (VLAN 100)...
+ad72afa84583e89ee1270da4176bdb7b82f87fa62cb04e5283432af45f1bfa27
+udhcpc: started, v1.37.0
+udhcpc: broadcasting discover
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 192.168.0.11, server 192.168.0.2
+udhcpc: lease of 192.168.0.11 obtained from 192.168.0.2, lease time 43200
+mv: can't rename '/etc/resolv.conf.22': Resource busy
+[OK] Contenedor 'cont_s1_v100' conectado a la VLAN 100.
+########## 8. CREAR CONTENEDOR EN SERVER 1 (VLAN 200, DHCP) ##########
+[INFO] Creando contenedor 'cont_s1_v200' (VLAN 200)...
+63edc6aae2edfb1b267e590d6f3ea8b77009aef322a2cfb288731ef7ff84fa29
+udhcpc: started, v1.37.0
+udhcpc: broadcasting discover
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 192.168.2.15, server 192.168.2.2
+udhcpc: lease of 192.168.2.15 obtained from 192.168.2.2, lease time 43200
+mv: can't rename '/etc/resolv.conf.22': Resource busy
+[OK] Contenedor 'cont_s1_v200' conectado a la VLAN 200.
+########## DESPLIEGUE DE LA ACTIVIDAD 4 COMPLETADO ##########
+NOTA: se habilito el ruteo entre VLAN 100 y VLAN 200.
+Validar: el contenedor de VLAN 100 debe alcanzar al de VLAN 200 y viceversa.
