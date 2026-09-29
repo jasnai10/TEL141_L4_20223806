@@ -1,7 +1,6 @@
-==================================================
  EVIDENCIA ACT 3 - CONTENEDOR SERVER 1 (VLAN 100, CON DHCP SIN INTERNET)
  Fecha: Tue Sep 29 02:51:49 UTC 2026
-==================================================
+
 
 ### 1. IP OBTENIDA POR DHCP Y MAC ###
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
@@ -45,7 +44,3 @@ PING 8.8.8.8 (8.8.8.8): 56 data bytes
 --- 8.8.8.8 ping statistics ---
 3 packets transmitted, 0 packets received, 100% packet loss
 >>> Sin salida a Internet (CORRECTO para Actividad 3)
-
-==================================================
- FIN DE EVIDENCIAS
-==================================================
